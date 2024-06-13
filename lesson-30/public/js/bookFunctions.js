@@ -13,28 +13,18 @@ $(document).ready(() => {
   const socket = io();
 
   $("#chat-form").submit(() => {
-    // Lesson 31.1 (p. 450)
-    // Lesson 31.4 (p. 452)
-    // Lesson 31.7 (p. 455)
-    let username = $("#chat-username").val();
-    socket.emit("message", {
-      // Lesson 31.1 (p. 450)
-      // Lesson 31.4 (p. 452)
-      // Lesson 31.7 (p. 455)
-      username: username,
-    });
+    socket.emit("message");
     $("#chat-input").val("");
     return false;
   });
 
-  /**
-   * Listing 31.12 (p. 460)
-   * 최근 메시지 표시
-   */
-
   socket.on("message", (message) => {
-    displayMessage(message);
+    displayMessage(message.content);
   });
+
+  let displayMessage = (message) => {
+    $("#chat").prepend(`<li>${message}</li>`);
+  };
 
   $("#modal-button").click(() => {
     $(".modal-body").html("");
@@ -139,8 +129,3 @@ let addJoinButtonListener = () => {
     );
   });
 };
-
-/**
- * Listing 31.6 (p. 454)
- * 채팅 폼으로부터 hidden field 값 끌어오기
- */
